@@ -115,46 +115,39 @@ class HBNBCommand(cmd.Cmd):
 
 
 def do_create(self, args):
-    """Create an object of any class with the given parameters"""
+    """Create an object of any class"""
     if not args:
+        # Check if the class name is missing in the arguments
         print("** class name missing **")
         return
 
     # Split the arguments into a list
-    arguments = args.split()
-    class_name = arguments[0]
-
-    # Check if the class name exists in the 'classes' dictionary
-    if class_name not in HBNBCommand.classes:
+    args_list = args.split()
+    if args_list[0] not in HBNBCommand.classes:
+        # Check if the class name exists in the 'classes' dictionary
         print("** class doesn't exist **")
         return
 
     # Create a dictionary to store the instance parameters
-    params = {}
-    for arg in arguments[1:]:
-        key, value = arg.split('=')
-        if not key or not value:
-            continue
-
-        # Check the data type of the value and convert if necessary
-        if value.startswith('"') and value.endswith('"'):
-            value = value[1:-1].replace('_', ' ').replace('\\"', '"')
-        elif '.' in value:
-            try:
-                value = float(value)
-            except ValueError:
-                continue
+    dictionary = {}
+    for params in range(1, len(args_list)):
+        # Split each argument into key-value pairs
+        param_parts = args_list[params].split('=')
+        # Remove underscores from the value and evaluate appropriate data type
+        value = param_parts[1].replace('_', ' ')
+        evaluated_value = eval(value)
+        # Check if the data type of the value is valid (str..)add it to the dic
+        if type(evaluated_value) not in [str, int, float]:
+            pass
         else:
-            try:
-                value = int(value)
-            except ValueError:
-                continue
-
-        # Add the key-value pair to the parameters dictionary
-        params[key] = value
+            dictionary[param_parts[0]] = evaluated_value
 
     # Create a new instance of the class with the provided parameters
-    new_instance = HBNBCommand.classes[class_name](**params)
+    new_instance = HBNBCommand.classes[args_list[0]]()
+    for key, value in dictionary.items():
+        # Assign the key-value pairs from the dictionary to
+        # the new instance's attributes
+        new_instance.__dict__[key] = value
 
     # Save the instance to the storage
     storage.save()

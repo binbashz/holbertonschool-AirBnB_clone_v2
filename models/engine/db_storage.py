@@ -4,9 +4,24 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from models.base_model import Base, BaseModel
+from models.amenity import Amenity
+from models.city import City
+from models.place import Place
+from models.review import Review
+from models.state import State
+from models.user import User
+
 
 class DBStorage:
     """DBStorage class"""
+    orm_classes = {
+        "City": City,
+        "State": State,
+        "User": User,
+        "Place": Place,
+        "Review": Review,
+        "Amenity": Amenity
+    }
     __engine = None
     __session = None
 
@@ -25,18 +40,16 @@ class DBStorage:
 
     def all(self, cls=None):
         """Queries all objects in the current database session"""
-        from models import storage
         obj_dict = {}
         if cls:
             for obj in self.__session.query(cls):
                 key = f"{obj.__class__.__name__}.{obj.id}"
                 obj_dict[key] = obj
         else:
-            for cls in storage.classes:
-                if issubclass(storage.classes[cls], BaseModel):
-                    for obj in self.__session.query(storage.classes[cls]):
-                        key = f"{obj.__class__.__name__}.{obj.id}"
-                        obj_dict[key] = obj
+            for cls in self.orm_classes.values():
+                for obj in self.__session.query(cls).all():
+                    key = f"{obj.__class__.__name__}.{obj.id}"
+                    obj_dict[key] = obj
         return obj_dict
 
     def new(self, obj):
@@ -51,9 +64,10 @@ class DBStorage:
         """Deletes the object from the current database session"""
         if obj:
             self.__session.delete(obj)
+            self.save()
 
     def reload(self):
         """Creates all tables in the database and creates the current database session"""
         Base.metadata.create_all(self.__engine)
-        Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        self.__session = scoped_session(Session)
+        session = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        self.__session = scoped_session(session)

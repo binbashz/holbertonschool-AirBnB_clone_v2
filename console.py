@@ -113,50 +113,49 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
+    def do_create(self, args):
+        """Create an object of any class"""
+        if not args:
+            # Check if the class name is missing in the arguments
+            print("** class name missing **")
+            return
 
-def do_create(self, args):
-    """Create an object of any class"""
-    if not args:
-        # Check if the class name is missing in the arguments
-        print("** class name missing **")
-        return
+        # Split the arguments into a list
+        args_list = args.split()
+        if args_list[0] not in HBNBCommand.classes:
+            # Check if the class name exists in the 'classes' dictionary
+            print("** class doesn't exist **")
+            return
 
-    # Split the arguments into a list
-    args_list = args.split()
-    if args_list[0] not in HBNBCommand.classes:
-        # Check if the class name exists in the 'classes' dictionary
-        print("** class doesn't exist **")
-        return
-
-    # Create a dictionary to store the instance parameters
-    dictionary = {}
-    for params in range(1, len(args_list)):
-        # Split each argument into key-value pairs
-        param_parts = args_list[params].split('=')
-        # Remove underscores from the value and evaluate appropriate data type
-        value = param_parts[1].replace('_', ' ')
-        evaluated_value = eval(value)
-        # Check if the data type of the value is valid (str..)add it to the dic
-        if type(evaluated_value) not in [str, int, float]:
-            pass
-        else:
-            dictionary[param_parts[0]] = evaluated_value
-
-    # Create a new instance of the class with the provided parameters
-    new_instance = HBNBCommand.classes[args_list[0]]()
-    for key, value in dictionary.items():
-        # Assign the key-value pairs from the dictionary to
-        # the new instance's attributes
-        new_instance.__dict__[key] = value
-
-    # Save the instance to the storage
-    storage.save()
-
-    # Print the ID of the new instance
-    print(new_instance.id)
-
-    # Save the changes to the storage again
-    storage.save()
+        # Create a new instance and separate parameters into key value
+        instance = HBNBCommand.classes[args_list[0]]()
+        for parameters in args_list[1:]:
+            key = parameters.split("=")[0]
+            value = parameters.split("=")[1]
+            # For parameters that fit
+            if hasattr(instance, key):
+                # Check for string values, and escapes quotes
+                if "\"" in value:
+                    value = value.strip("\"")
+                    value = str(value)
+                    # Replace underscores for spaces
+                    if "_" in value:
+                        value = value.replace("_", " ")
+                # Check for numerical values, float or int
+                else:
+                    if "." in value:
+                        value = float(value)
+                    else:
+                        value = int(value)
+                # Ser attribute
+                setattr(instance, key, value)
+            #for parameters that doesn't fit
+            else:
+                pass
+        # Save instance, storage, and print
+        instance.save()
+        storage.save()
+        print(instance.id)
 
     def help_create(self):
         """ Help information for the create method """

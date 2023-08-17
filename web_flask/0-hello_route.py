@@ -1,14 +1,22 @@
 #!/usr/bin/python3
 
-from flask import Flask  # Import the Flask class from Flask package.
-app = Flask(__name__)    # Create a Flask instance with current module's name.
+from flask import Flask, abort
 
+# Create a Flask web application instance
+app = Flask(__name__)
 
-@app.route('/', strict_slashes=False)  # Define root URL route with / option.
-def hello_hbnb():              # Define function 'index' for the route.
-    return "Hello HBNB!"  # Return string to display in the browser.
+# Define a route for the root URL ("/") and allow trailing slashes
+@app.route('/', strict_slashes=False)
+def hello_hbnb():
+    return "Hello HBNB!"
 
+# Define a route for the "/noroute" URL and allow trailing slashes
+@app.route('/noroute', strict_slashes=False)
+def no_route():
+    # Return a custom 404 error message using Flask's abort function
+    abort(404, "Not a valid route")
 
+# Run the web application when this script is executed
 if __name__ == '__main__':
-    # listen on all available network interfarce(0.0.0.0) and port 5000.
-    app.run(host='0.0.0.0', port=5000)  # Start Flask dev server.
+    # Listen on the specified IP address and port (0.0.0.0:5000)
+    app.run(host='0.0.0.0', port=5000)

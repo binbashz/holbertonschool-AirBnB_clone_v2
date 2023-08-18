@@ -1,7 +1,17 @@
-flask: A Lightweight Python Web Framework
+
+first take a look at "What are web frameworks and why do you need them?"
+
+https://intelegain-technologies.medium.com/what-are-web-frameworks-and-why-you-need-them-c4e8806bd0fb
 
 
-Flask is a micro web framework for Python that is designed to be simple, lightweight, and easy to use. It allows developers to build web applications quickly and efficiently, making it a popular choice for projects ranging from small personal websites to larger applications.
+
+## flask 
+ a lightweight Python Web Framework
+
+
+Flask is a micro web framework for Python that is designed to be simple, lightweight, and easy to use.
+It allows developers to build web applications quickly and efficiently, making it a popular choice for
+projects ranging from small personal websites to larger applications.
 
 Getting Started
 To start using Flask, follow these steps:
@@ -11,12 +21,13 @@ Install Flask: You can install Flask using pip, the Python package manager.
 
 pip install flask
 Create a Flask App: Create a new Python file, e.g., app.py, and import Flask.
-
+```
 
 from flask import Flask
 
 app = Flask(__name__)
-Create Routes: Define routes in your app to handle different URLs. A route is a Python function that gets triggered when a specific URL is accessed.
+Create Routes: Define routes in your app to handle different URLs. A route is a Python function
+that gets triggered when a specific URL is accessed.
 
 
 @app.route('/')
@@ -27,8 +38,8 @@ Run the App: In the same app.py file, add the following lines at the end to run 
 
 if __name__ == '__main__':
     app.run()
+```
 Run the Server: Open your terminal, navigate to the directory containing app.py, and run the following command:
-
 
 python app.py
 Your Flask app should now be running locally, and you can access it by visiting http://localhost:5000 in your web browser.
@@ -44,7 +55,7 @@ Community and Documentation: Flask has an active community and well-documented r
 Example Application
 Here's a simple example of a Flask app that serves a dynamic greeting:
 
-
+```
 from flask import Flask, render_template
 
 app = Flask(__name__)
@@ -55,6 +66,8 @@ def index():
 
 if __name__ == '__main__':
     app.run()
+
+```
 In this example, when you visit the root URL, Flask renders an HTML template that displays a greeting using the name variable.
 
 Conclusion
@@ -65,10 +78,6 @@ For more detailed information, tutorials, and documentation, visit the Flask Off
 
 
 
-User
-pasame todo en en lenjuage markdown
-ChatGPT
-Por supuesto, aquí tienes el mismo README en lenguaje Markdown:
 
 
 # Flask: A Lightweight Python Web Framework
@@ -118,7 +127,7 @@ Extensions: Flask has a wide range of extensions for added functionality like au
 Community and Documentation: Flask has an active community and well-documented resources to help developers learn and troubleshoot.
 Example Application
 Here's a simple example of a Flask app that serves a dynamic greeting:
-
+```
 
 from flask import Flask, render_template
 
@@ -130,4 +139,5 @@ def index():
 
 if __name__ == '__main__':
     app.run()
+```
 In this example, when you visit the root URL, Flask renders an HTML template that displays a greeting using the name variable.

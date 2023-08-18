@@ -96,7 +96,7 @@ To start using Flask, follow these steps:
    pip install flask
 Create a Flask App: Create a new Python file, e.g., app.py, and import Flask.
 
-
+```
 from flask import Flask
 
 app = Flask(__name__)
@@ -111,6 +111,8 @@ Run the App: In the same app.py file, add the following lines at the end to run 
 
 if __name__ == '__main__':
     app.run()
+
+```
 Run the Server: Open your terminal, navigate to the directory containing app.py, and run the following command:
 
 

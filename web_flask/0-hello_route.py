@@ -1,20 +1,17 @@
 #!/usr/bin/python3
 
-from flask import Flask, abort
+from flask import Flask
 
 # Create a Flask web application instance
 app = Flask(__name__)
 
 # Define a route for the root URL ("/") and allow trailing slashes
+
+
 @app.route('/', strict_slashes=False)
 def hello_hbnb():
     return "Hello HBNB!"
 
-# Define a route for the "/noroute" URL and allow trailing slashes
-@app.route('/noroute', strict_slashes=False)
-def no_route():
-    # Return a custom 404 error message using Flask's abort function
-    abort(404, "Not a valid route")
 
 # Run the web application when this script is executed
 if __name__ == '__main__':

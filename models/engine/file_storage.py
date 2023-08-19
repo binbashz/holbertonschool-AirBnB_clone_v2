@@ -60,4 +60,8 @@ class FileStorage:
             if key in FileStorage.__objects.keys():
                 del FileStorage.__objects[key]
                 self.save()
- 
+
+        """task 7. Improve engines from Web framework"""
+    def close(self):
+        """method for deserializing the JSON file to objects"""
+        self.reload()

@@ -33,8 +33,8 @@ class DBStorage:
         db = os.getenv('HBNB_MYSQL_DB')
         env = os.getenv('HBNB_ENV')
 
-        self.__engine = create_engine(f'mysql+mysqldb://{user}:{pwd}@{host}/{db}',
-                                      pool_pre_ping=True)
+        self.__engine = create_engine(
+            f'mysql+mysqldb://{user}:{pwd}@{host}/{db}', pool_pre_ping=True)
         if env == 'test':
             Base.metadata.drop_all(self.__engine)
 
@@ -67,7 +67,11 @@ class DBStorage:
             self.save()
 
     def reload(self):
-        """Creates all tables in the database and creates the current database session"""
+        """Creates all tables in database & creates the current session"""
         Base.metadata.create_all(self.__engine)
         session = sessionmaker(bind=self.__engine, expire_on_commit=False)
         self.__session = scoped_session(session)
+
+    def close(self):
+        """Close the SQLAlchemy session"""
+        self.__session.close()
